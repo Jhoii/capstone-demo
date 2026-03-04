@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+.turbo/
+.vite/
+
+# Env files (keep .env.example if you add one)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS / Editor
+.DS_Store
+.idea/
+
+# Local editor settings (optional)
+.vscode/
+!.vscode/extensions.json
+
