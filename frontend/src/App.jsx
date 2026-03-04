@@ -29,6 +29,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   async function load() {
     setError("");
@@ -129,6 +130,37 @@ export default function App() {
       setError(e?.message || "Failed to update student");
     } finally {
       setIsSaving(false);
+    }
+  }
+
+  async function deleteStudent(student) {
+    setError("");
+    if (!API) {
+      setError("Missing VITE_API_URL. Add it to `frontend/.env` then restart the dev server.");
+      return;
+    }
+    if (!student?.id) return;
+
+    const ok = window.confirm(`Delete student #${student.id} (${displayFullName(student)})?`);
+    if (!ok) return;
+
+    setDeletingId(student.id);
+    try {
+      const res = await fetch(`${API}/api/students/${student.id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to delete student");
+      }
+
+      if (editingId === student.id) {
+        cancelEdit();
+      }
+
+      await load();
+    } catch (e) {
+      setError(e?.message || "Failed to delete student");
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -350,14 +382,25 @@ export default function App() {
                       <td className="mono">{s.course}</td>
                       <td>Year {s.yearLevel}</td>
                       <td style={{ textAlign: "right" }}>
-                        <button
-                          type="button"
-                          className="button button--ghost button--sm"
-                          onClick={() => beginEdit(s)}
-                          disabled={isSaving}
-                        >
-                          Edit
-                        </button>
+                        <div className="rowActions">
+                          <button
+                            type="button"
+                            className="button button--ghost button--sm"
+                            onClick={() => beginEdit(s)}
+                            disabled={isSaving || deletingId === s.id}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            className="button button--danger button--sm"
+                            onClick={() => deleteStudent(s)}
+                            disabled={isSaving || deletingId === s.id}
+                            title="Delete student"
+                          >
+                            {deletingId === s.id ? "Deleting…" : "Delete"}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

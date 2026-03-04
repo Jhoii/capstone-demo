@@ -236,6 +236,12 @@
   color: var(--primary-contrast);
 }
 
+.button--danger {
+  background: rgba(225, 29, 72, 0.10);
+  border-color: rgba(225, 29, 72, 0.35);
+  color: var(--danger);
+}
+
 .button--ghost {
   background: transparent;
 }
@@ -313,6 +319,13 @@
 
 .table tbody tr:hover {
   background: rgba(37, 99, 235, 0.06);
+}
+
+.rowActions {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .skeleton {
