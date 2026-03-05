@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import "./App.css";
+
+import { useEffect, useState } from "react";
 
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 
@@ -194,7 +195,7 @@ export default function App() {
         <div className="topbar__left">
           <div className="brand">
             <span className="badge">Capstone Demo</span>
-            <h1 className="brand__title">Student Registry</h1>
+            <h1 className="brand__title">Student Registries</h1>
           </div>
           <p className="subhead">React UI → Node.js API → MySQL</p>
         </div>
